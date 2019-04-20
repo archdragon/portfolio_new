@@ -1,0 +1,35 @@
+@charset "utf-8";
+
+// Layout & General setup
+html, body {
+  height: 100%;
+}
+
+// Animation-related
+.intro-background {
+  height: 100%;
+  width: 100%;
+  z-index: 0;
+}
+
+.intro-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 1;
+}
+
+// Intro
+section.intro {
+  background-color: blue;
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+// About
+section.about {
+
+}
