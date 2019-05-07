@@ -1,4 +1,4 @@
-var MAX_POINTS = 30;
+var MAX_POINTS = 25;
 
 var whiteFillStyle = "rgba(255, 255, 255, 1)";
 
@@ -20,16 +20,23 @@ function getRandomFloat(min, max) {
 
 
 var dpr;
+var adjustedDpr;
 var globalWidth;
 var globalHeight;
 
 function rescale() {
   dpr = window.devicePixelRatio || 1;
+  adjustedDpr = dpr;
+
+  if (adjustedDpr >= 2) {
+    adjustedDpr = 1.25;
+  }
+
   globalWidth  = window.innerWidth;
   globalHeight = window.innerHeight;
-  canvas.setAttribute("width", globalWidth * dpr);
-  canvas.setAttribute("height", globalHeight * dpr);
-  context.scale(dpr, dpr);
+  canvas.setAttribute("width", globalWidth * adjustedDpr);
+  canvas.setAttribute("height", globalHeight * adjustedDpr);
+  context.scale(adjustedDpr, adjustedDpr);
 }
 
 rescale();
@@ -54,6 +61,7 @@ function getMousePos(canvas, evt) {
 }
 
 mousePos = {x: 0, y: 0};
+mainDotPos = {x: 0, y: 0};
 mouseOnCanvas = true;
 
 introSection.addEventListener('mousemove', function(evt) {
@@ -71,7 +79,6 @@ introSection.addEventListener('mouseout', function(evt) {
 var iterator = 0;
 
 var Point = function(x,y) {
-
   this.reset = function() {
     this.maxSpeed = 7;
 
@@ -86,7 +93,7 @@ var Point = function(x,y) {
     this.x = x;
     this.y = y;
 
-    this.fullSize = (this.y/context.canvas.height)*this.sizeMax;
+    this.fullSize = (this.y / globalHeight) * this.sizeMax;
 
     if(this.fullSize < this.sizeMax/2) {
       this.maxSpeed = 9;
@@ -107,12 +114,12 @@ var Point = function(x,y) {
       this.reset();
     }
 
-    this.x += this.speed_x*deltaTime;
-    this.y += this.speed_y*deltaTime;
+    this.x += this.speed_x * deltaTime;
+    this.y += this.speed_y * deltaTime;
 
     this.lifetime += deltaTime;
 
-    this.mouseDistance = Math.sqrt(Math.pow(mousePos.x - this.x, 2) + Math.pow(mousePos.y - this.y, 2));
+    this.mouseDistance = Math.sqrt(Math.pow(mainDotPos.x - this.x, 2) + Math.pow(mainDotPos.y - this.y, 2));
   }
 
   this.draw = function() {
@@ -144,18 +151,22 @@ var Point = function(x,y) {
   this.drawMouseLine = function() {
     if(this.mouseDistance < 180 && mouseOnCanvas) {
       strokeOpacity = (180.0 - this.mouseDistance)/180.0;
+      strokeOpacity = strokeOpacity.clamp(0, 0.6);
 
       var strokeStyle = "rgba(255, 255, 255, "+strokeOpacity+")";
+      var circleSize = 2
+      drawCircle(this.x, this.y, circleSize, strokeStyle);
 
-      var circleSize = this.fullSize / 2.0;
-
+      strokeOpacity = strokeOpacity * 0.3;
+      strokeStyle = "rgba(255, 255, 255, "+strokeOpacity+")";
+      circleSize = this.fullSize / 2.0;
       drawCircle(this.x, this.y, circleSize, strokeStyle);
 
       context.beginPath();
       context.moveTo(this.x, this.y);
-      context.lineTo(mousePos.x, mousePos.y);
+      context.lineTo(mainDotPos.x, mainDotPos.y);
       context.strokeStyle = strokeStyle;
-      context.lineWidth = 2;
+      context.lineWidth = 0.75;
       context.lineCap = "round";
       context.stroke();
     }
@@ -164,7 +175,7 @@ var Point = function(x,y) {
 
 var pointsArray = new Array(MAX_POINTS);
 
-for(n=0; n<MAX_POINTS; n++) {
+for(n = 0; n < MAX_POINTS; n++) {
     var point = new Point(getRandomFloat(0, globalWidth), getRandomFloat(0, globalHeight));
     point.reset();
     pointsArray[n] = point;
@@ -173,17 +184,21 @@ for(n=0; n<MAX_POINTS; n++) {
 var lastFrameTime = Date.now();
 
 function draw() {
-  //context.save();
-  //context.scale(dpr, dpr);
-
   var currentFrameTime = Date.now();
   var deltaTime = (currentFrameTime - lastFrameTime)/1000.0;
   lastFrameTime = currentFrameTime;
 
   context.clearRect(0, 0, globalWidth, globalHeight);
+  let diff = {x: 0, y: 0}
+  diff = {
+    x: mainDotPos.x - mousePos.x,
+    y: mainDotPos.y - mousePos.y
+  }
 
-  //circleSize = iterator/20.0;
-  //circleSize.clamp(5, 15);
+  mainDotPos = {
+    x: mainDotPos.x - diff.x / 10,
+    y: mainDotPos.y - diff.y / 10
+  }
 
   for(n=0; n<MAX_POINTS; n++) {
     var point = pointsArray[n];
@@ -192,58 +207,14 @@ function draw() {
     point.draw();
   }
 
-
-  //iterator++;
-
-
   if(mouseOnCanvas) {
-    drawCircle(mousePos.x, mousePos.y, 2, whiteFillStyle);
-  }
 
-  //context.restore();
+
+    drawCircle(mainDotPos.x, mainDotPos.y, 2, whiteFillStyle);
+  }
 }
 
-setInterval(draw,30);
+setInterval(draw, 20);
 
 
 
-// --- Menu color
-
-var menuChanged = false;
-var menuElement = $("#menu");
-
-var offset = $("#introduction").offset();
-
-$(document).scroll(function() {
-
-  var offsetTop = offset.top;
-
-
-  var scrollTop = $(this).scrollTop();
-  if(scrollTop > (offsetTop - 100)) {
-    if(menuChanged == false) {
-      $("#arrow-down").fadeOut();
-      menuChanged = true;
-      menuElement.addClass("menu-white");
-    }
-  } else if(scrollTop < offsetTop - 100) {
-    if(menuChanged == true) {
-      $("#arrow-down").fadeIn();
-      menuChanged = false;
-      menuElement.removeClass("menu-white");
-    }
-  }
-
-  $('a[href*=#]').smoothScroll({easing: 'easeOutExpo',
-  speed: 1600, offset: -68});
-
-});
-
-
-$(document).ready(function(){
-  $(".hover-animated").hover(function(){
-    $(this).addClass("animated " + $(this).data("animation"));
-  }, function(){
-    $(this).removeClass("animated " + $(this).data("animation"));
-  });
-});

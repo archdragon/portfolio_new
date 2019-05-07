@@ -1,8 +1,78 @@
 @charset "utf-8";
 
+$color1_bg: #3e8fc3;
+$horizontal_margin: 30px;
+
 // Layout & General setup
 html, body {
   height: 100%;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 300;
+}
+
+h1, h2, h3 {
+  font-family: 'Open Sans', sans-serif;
+}
+
+h2.main-title {
+  font-size: 3rem;
+  font-weight: 800;
+}
+
+.main-title {
+  position: relative;
+  font-weight: 900;
+  font-size: 3.3em;
+}
+
+.main-title .text-wrapper {
+  position: relative;
+  display: inline-block;
+  padding-top: 0.2em;
+  padding-right: 0.05em;
+  padding-bottom: 0.1em;
+  overflow: hidden;
+}
+
+.main-title .letter {
+  display: inline-block;
+  line-height: 1em;
+}
+
+// Page sections
+
+.inner-wrapper {
+  padding: 70px $horizontal_margin 0 $horizontal_margin;
+
+  h2 {
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+  }
+}
+
+// Navigation
+
+nav {
+  top: 0;
+  left: 0;
+  right: 0;
+  color: #fff;
+
+  &.navbar {
+    padding-top: 25px;
+    position: absolute;
+    z-index: 1;
+  }
+
+  a {
+    color: #fff;
+  }
+
+  .inner-wrapper {
+    padding: 0 $horizontal_margin;
+  }
 }
 
 // Animation-related
@@ -13,23 +83,61 @@ html, body {
 }
 
 .intro-content {
+  color: #fff;
   position: absolute;
   top: 0;
   left: 0;
   bottom: 0;
   right: 0;
   z-index: 1;
+
+  .container, .row {
+    height: 100%;
+  }
+
+  .inner-content {
+    height: 100%;
+  }
 }
 
 // Intro
 section.intro {
-  background-color: blue;
+  background-color: $color1_bg;
   position: relative;
   height: 100%;
   width: 100%;
+
+  .intro-column {
+    align-self: flex-end;
+  }
+
+  .intro-text {
+    padding: 0 $horizontal_margin;
+    padding-bottom: 120px;
+  }
 }
 
 // About
 section.about {
 
+}
+
+// Round icon component
+.round-icon-component {
+  clear: both;
+  display: flex;
+  align-items: center;
+
+  .icon {
+    background-color: red;
+    border-radius: 50%;
+    float: left;
+    height: 50px;
+    width: 50px;
+  }
+
+  .text {
+    flex-align: middle;
+    padding-left: 10px;
+  }
 }

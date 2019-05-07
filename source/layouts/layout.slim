@@ -11,11 +11,30 @@ html
 
     title = current_page.data.title || "P. Krowinski - Software Engineer"
 
-    link href='//fonts.googleapis.com/css?family=Lato:300,400' rel='stylesheet' type='text/css'
+    link href="https://fonts.googleapis.com/css?family=Montserrat:300,400|Open+Sans:300,400,800" rel="stylesheet"
+    link href="https://fonts.googleapis.com/css?family=Suez+One" rel="stylesheet"
+    script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"
+    script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"
 
     == stylesheet_link_tag :"bootstrap.min"
     == stylesheet_link_tag :site
 
   body class="#{page_classes}"
+    nav.navbar
+      .container
+        .inner-wrapper
+          a.navbar-brand Stan Krowinski
+        ul.nav
+          li.nav-item
+            a.nav-link href="#" About
+          li.nav-item
+            a.nav-link href="#" Current
+          li.nav-item
+            a.nav-link href="#" Past
+          li.nav-item
+            a.nav-link href="#" Activities
+          li.nav-item
+            a.nav-link href="#" Contact
     == yield
     == javascript_include_tag  "floaters"
+    == javascript_include_tag  "main"
