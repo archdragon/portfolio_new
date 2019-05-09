@@ -114,6 +114,10 @@ section.intro {
   .intro-text {
     padding: 0 $horizontal_margin;
     padding-bottom: 120px;
+
+    p {
+      opacity: 0;
+    }
   }
 }
 
@@ -126,18 +130,90 @@ section.about {
 .round-icon-component {
   clear: both;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
 
   .icon {
     background-color: red;
     border-radius: 50%;
+    flex: 0 0 50px;
     float: left;
     height: 50px;
     width: 50px;
+    overflow: hidden;
   }
 
   .text {
-    flex-align: middle;
-    padding-left: 10px;
+    padding-left: 12px;
+    .title {
+      font-weight: 400;
+      padding-bottom: 2px;
+    }
+
+    .description {
+      opacity: 0.8;
+    }
+  }
+
+  &[data-name="years-of-experience"] {
+    .icon {
+      color: #fff;
+      font-weight: bold;
+      font-size: 28px;
+      text-align: center;
+
+      .first-letter {
+        display: inline-block;
+        padding-top: 3px;
+        position: relative;
+        transform: rotate(-5deg) translate(0px, 4px);
+      }
+
+      .second-letter {
+        display: inline-block;
+        padding-top: 3px;
+        position: relative;
+        transform: rotate(2deg) translate(-1px, 2px);
+      }
+    }
+  }
+
+  &[data-name="startup-founder"] {
+    .icon {
+      position: relative;
+      .brick {
+        background-color: #fff;
+        border-radius: 2px;
+        bottom: 0;
+        height: 13px;
+        left: 0;
+        position: absolute;
+        width: 19px;
+      }
+
+      .brick1 {
+        transform: translateX(-1px) translateY(-9px);
+      }
+
+      .brick2 {
+        transform: translateX(21px) translateY(-9px);
+      }
+
+      .brick3 {
+        transform: translateX(9px) translateY(-25px);
+      }
+
+      .brick4 {
+        transform: translateX(-13px) translateY(-55px);
+      }
+
+      .brick5 {
+        transform: translateX(31px) translateY(-55px);
+      }
+
+      .brick6 {
+        transform: translateX(43px) translateY(-55px);
+        width: 10px;
+      }
+    }
   }
 }

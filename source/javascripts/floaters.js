@@ -153,9 +153,9 @@ var Point = function(x,y) {
       strokeOpacity = (180.0 - this.mouseDistance)/180.0;
       strokeOpacity = strokeOpacity.clamp(0, 0.6);
 
-      var strokeStyle = "rgba(255, 255, 255, "+strokeOpacity+")";
+      var baseStrokeStyle = "rgba(255, 255, 255, "+strokeOpacity+")";
       var circleSize = 2
-      drawCircle(this.x, this.y, circleSize, strokeStyle);
+      drawCircle(this.x, this.y, circleSize, baseStrokeStyle);
 
       strokeOpacity = strokeOpacity * 0.3;
       strokeStyle = "rgba(255, 255, 255, "+strokeOpacity+")";
@@ -166,7 +166,8 @@ var Point = function(x,y) {
       context.moveTo(this.x, this.y);
       context.lineTo(mainDotPos.x, mainDotPos.y);
       context.strokeStyle = strokeStyle;
-      context.lineWidth = 0.75;
+      context.setLineDash([5, 20])
+      context.lineWidth = 4;
       context.lineCap = "round";
       context.stroke();
     }
