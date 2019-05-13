@@ -45,11 +45,12 @@ rescale();
 window.addEventListener('resize', rescale);
 
 
-function drawCircle(x, y, radius, fillstyle) {
+function drawCircle(x, y, radius, strokeStyle) {
   context.beginPath();
+  context.setLineDash([]);
   context.arc(x, y, radius, 0, 2 * Math.PI, false);
-  context.fillStyle = fillstyle;
-  context.fill();
+  context.strokeStyle = strokeStyle;
+  context.stroke();
 }
 
 function getMousePos(canvas, evt) {
@@ -154,7 +155,7 @@ var Point = function(x,y) {
       strokeOpacity = strokeOpacity.clamp(0, 0.6);
 
       var baseStrokeStyle = "rgba(255, 255, 255, "+strokeOpacity+")";
-      var circleSize = 2
+      var circleSize = 3
       drawCircle(this.x, this.y, circleSize, baseStrokeStyle);
 
       strokeOpacity = strokeOpacity * 0.3;
@@ -167,7 +168,7 @@ var Point = function(x,y) {
       context.lineTo(mainDotPos.x, mainDotPos.y);
       context.strokeStyle = strokeStyle;
       context.setLineDash([5, 20])
-      context.lineWidth = 4;
+      context.lineWidth = 3;
       context.lineCap = "round";
       context.stroke();
     }
@@ -211,7 +212,7 @@ function draw() {
   if(mouseOnCanvas) {
 
 
-    drawCircle(mainDotPos.x, mainDotPos.y, 2, whiteFillStyle);
+    drawCircle(mainDotPos.x, mainDotPos.y, 3, whiteFillStyle);
   }
 }
 

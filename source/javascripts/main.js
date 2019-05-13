@@ -7,17 +7,22 @@ anime.timeline({loop: false})
     delay: function(el, i) {
       return 500 + 50 * i;
     }
+  }).add({
+    targets: '.subtitle',
+    opacity: [0, 1],
+    rotate: [-5, 0],
+    translateX: [-20, 0],
+    duration: 900,
+    offset: 1100
+  }).add({
+    targets: '.subtitle-description',
+    opacity: [0, 1],
+    translateY: [50, 0],
+    duration: 900,
+    offset: 1500
   });
 
-anime.timeline({loop: false})
-  .add({
-    targets: '.intro-text p',
-    opacity: 1,
-    duration: 3500,
-    delay: function(el, i) {
-      return 1500 + 750 * i;
-    }
-  });
+//anime.timeline({loop: false})
 
 let experienceAnimation = anime.timeline({
   loop: false,

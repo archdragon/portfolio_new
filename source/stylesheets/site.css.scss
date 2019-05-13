@@ -115,7 +115,7 @@ section.intro {
     padding: 0 $horizontal_margin;
     padding-bottom: 120px;
 
-    p {
+    .subtitle, .subtitle-description {
       opacity: 0;
     }
   }
